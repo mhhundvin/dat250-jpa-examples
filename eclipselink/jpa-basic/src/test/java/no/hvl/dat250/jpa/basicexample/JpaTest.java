@@ -43,7 +43,7 @@ public class JpaTest {
                 Person person = new Person();
                 person.setFirstName("Jim_" + i);
                 person.setLastName("Knopf_" + i);
-                em.persist(person);
+                person.setFamily(family);
                 // now persists the family person relationship
                 family.getMembers().add(person);
                 em.persist(person);
