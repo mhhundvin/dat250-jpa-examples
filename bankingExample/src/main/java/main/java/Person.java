@@ -4,14 +4,9 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -22,14 +17,15 @@ public class Person {
     private String firstName;
     private String lastName;
 
-    private Address address;
 
-    @ManyToOne
-    public Address getAddress() { return address;}
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "addresses",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "address_id"))
+    Set<Address> addresses;
+
 
     @OneToMany(mappedBy = "person")
     private final List<CreditCard> cards = new ArrayList<CreditCard>();

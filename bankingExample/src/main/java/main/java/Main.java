@@ -38,7 +38,6 @@ public class Main {
         Person person = new Person();
         person.setLastName("Mustermann");
         person.setFirstName("Max");
-        person.setAddress(address);
         em.persist(person);
 
         CreditCard card = new CreditCard();
@@ -53,12 +52,21 @@ public class Main {
         Pincode pincode = new Pincode();
         pincode.setPincode("123");
         pincode.setCount(1);
-        pincode.setCard(card);
         em.persist(pincode);
 
         card.setPincode(pincode);
         em.persist(card);
 
+        em.getTransaction().commit();
+
+        em.getTransaction().begin();
+        long personId = person.getId();
+        long addressId = address.getId();
+        String q = "insert into ADDRESSES values(?,?)";
+        em.createNativeQuery(q)
+                .setParameter(1, personId)
+                .setParameter(2, addressId)
+                .executeUpdate();
         em.getTransaction().commit();
 
         em.close();

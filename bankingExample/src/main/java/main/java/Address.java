@@ -4,14 +4,9 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -22,9 +17,6 @@ public class Address {
     private String street;
     private int number;
 
-    @OneToMany(mappedBy = "address")
-    private final List<Person> members = new ArrayList<Person>();
-    public List<Person> getMembers() {
-        return members;
-    }
+    @ManyToMany (mappedBy = "addresses")
+    Set<Person> persons;
 }
